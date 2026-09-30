@@ -1,0 +1,22 @@
+job_title,company,location,salary,experience_level,remote
+Software Developer,Northstar Systems,Calgary,72000,Junior,True
+QA Analyst,Prairie Digital,Edmonton,65000,Junior,False
+Backend Developer,Vector Labs,Saskatoon,85000,Intermediate,True
+Software Engineer,Redstone Technologies,Calgary,95000,Intermediate,False
+QA Tester,Northern Interactive,Regina,60000,Junior,True
+Frontend Developer,Blue River Software,Edmonton,78000,Intermediate,True
+Junior Developer,Atlas Computing,Red Deer,62000,Junior,False
+Senior Developer,Vertex Systems,Saskatoon,115000,Senior,True
+Application Developer,Westland Technologies,Calgary,82000,Intermediate,False
+Software Tester,Clearwater Digital,Edmonton,68000,Junior,True
+Software Developer,Northstar Systems,Calgary,72000,Junior,True
+QA Analyst,Prairie Digital,Edmonton,,Junior,False
+Backend Developer,Vector Labs,Saskatoon,85000,Intermediate,True
+Software Engineer,Redstone Technologies, Calgary ,95000,intermediate,False
+QA Tester,Northern Interactive,Regina,60000,JUNIOR,True
+Frontend Developer,Blue River Software,Edmonton,78000,Intermediate,True
+Junior Developer,Atlas Computing,Red Deer,62000,junior,False
+Senior Developer,Vertex Systems,Saskatoon,115000,Senior,True
+Application Developer,Westland Technologies,Calgary,-5000,Intermediate,False
+Software Tester,Clearwater Digital,Edmonton,68000,Junior,True
+Software Tester,Clearwater Digital,Edmonton,68000,Junior,True
