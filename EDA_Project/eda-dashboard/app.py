@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 from io import StringIO
 
 #Cleaning function
@@ -352,7 +353,7 @@ experience_percentages = (
 
 experience_summary = pd.DataFrame({
     "count": df["experience_level"].value_counts(),
-    "precentage": (
+    "percentage": (
         df["experience_level"]
         .value_counts(normalize=True)
         * 100
@@ -444,7 +445,7 @@ st.subheader(
     "Clean dataset statistical summary"
 )
 
-st.datagrame(
+st.dataframe(
     df.describe()
 )
 
@@ -630,4 +631,292 @@ salary_by_location = (
 st.dataframe(
     salary_by_location,
     use_container_width=True
+)
+
+st.header("Distribution Analytics")
+
+salary_histogram = px.histogram(
+    df,
+    x="salary",
+    title="Salary Distribution"
+)
+
+st.plotly_chart(
+    salary_histogram,
+    use_container_width=True
+)
+
+st.subheader("Salary Distribution")
+
+salary_histogram = px.histogram(
+    df,
+    x="salary",
+    nbins=8,
+    title="Distribution of Job Salaries"
+)
+
+#st.plotly_chart(
+#    salary_histogram,
+#    use_container_width=True
+#)
+
+salary_histogram = px.histogram(
+    df,
+    x="salary",
+    nbins=8,
+    title="Distribution of Job Salaries",
+    labels={
+        "salary": "Annual Salary"
+    }
+)
+
+salary_histogram.update_layout(
+    xaxis_title="Annual Salary",
+    yaxis_title="Number of Job Postings"
+)
+
+st.plotly_chart(
+    salary_histogram,
+    use_container_width=True
+)
+
+st.subheader("Salary Spread")
+
+salary_boxplot = px.box(
+    df,
+    y="salary",
+    title="Salary Distribution and Potential outliers"
+)
+
+st.plotly_chart(
+    salary_boxplot,
+    use_container_width=True
+)
+
+salary_stats["q1"]
+salary_stats["q3"]
+salary_stats["iqr"]
+
+
+
+with st.expander("Potential Salary outliers"):
+    lower_bound = (
+    salary_stats["q1"]
+    - 1.5 * salary_stats["iqr"]
+    )
+
+    upper_bound = (
+    salary_stats["q3"]
+    + 1.5 * salary_stats["iqr"]
+    )
+
+    potential_outliers = df[
+    (df["salary"] < lower_bound)
+    |
+    (df["salary"] > upper_bound)
+    ]
+
+    st.write(
+        "Lower IQR boundary:",
+        f"${lower_bound:,.0f}"
+    )
+
+    st.write(
+        "Upper IQR boundary:",
+        f"${upper_bound:,.0f}"
+    )
+
+    st.dataframe(
+        potential_outliers,
+        use_container_width=True
+    )
+
+st.subheader(
+    "Experience-level distribution"
+)
+
+experience_counts = (
+    df["experience_level"]
+    .value_counts()
+    .reset_index()
+)
+
+experience_chart = px.bar(
+    experience_counts,
+    x="experience_level",
+    y="count",
+    title="Job postings by experience level",
+    labels={
+        "experience_level": "Experience level",
+        "count": "Number of job postings"
+    }
+)
+
+st.plotly_chart(
+    experience_chart,
+    use_container_width=True
+)
+
+location_counts = (
+    df["location"]
+    .value_counts()
+    .reset_index()
+)
+
+location_chart = px.bar(
+    location_counts,
+    x="location",
+    y="count",
+    title="Job postings by location",
+    labels={
+        "location": "Location",
+        "count": "Number of job postings"
+    }
+)
+
+st.plotly_chart(
+    location_chart,
+    use_container_width=True
+)
+
+st.subheader(
+    "Salary distribution by experience level"
+)
+
+salary_experience_boxplot = px.box(
+    df,
+    x="experience_level",
+    y="salary",
+    points="all",
+    hover_data=[
+        "job_title",
+        "company",
+        "location"
+    ],
+    title="Salary distribution by experience level",
+    labels={
+        "experience_level": "Experience Level",
+        "salary": "Annual Salary"
+    }
+)
+
+st.plotly_chart(
+    salary_experience_boxplot,
+    use_container_width=True
+)
+
+chart_col1, chart_col2 = (
+    st.columns(2)
+)
+
+with chart_col1:
+
+    st.subheader(
+        "Salary distribution"
+    )
+
+    salary_histogram = px.histogram(
+        df,
+        x="salary",
+        nbins=8,
+        labels={
+            "salary": "Annual Salary"
+        }
+    )
+
+    st.plotly_chart(
+        salary_histogram,
+        use_container_width=True
+    )
+
+with chart_col2:
+
+    st.subheader(
+        "Salary sprread"
+    )
+
+    salary_boxplot = px.box(
+        df,
+        y="salary",
+        points="all",
+        labels={
+            "salary": "Annual salary"
+        }
+    )
+
+    st.plotly_chart(
+        salary_boxplot,
+        use_container_width=True
+    )
+category_col1, category_col2 = (
+    st.columns(2)
+)
+
+with category_col1:
+
+    experience_counts = (
+        df["experience_level"]
+        .value_counts()
+        .reset_index()
+    )
+
+    experience_chart = px.bar(
+        experience_counts,
+        x="experience_level",
+        y="count",
+        labels={
+            "experience_level":
+                "Experience Level",
+            "count":
+                "Job Postings"
+        }
+    )
+
+    st.plotly_chart(
+        experience_chart,
+        use_container_width=True
+    )
+
+with category_col2:
+
+    location_counts = (
+        df["location"]
+        .value_counts()
+        .reset_index(0)
+    )
+
+    location_chart = px.bar(
+        location_counts,
+        x="location",
+        y="count",
+        labels={
+            "location":
+                "Location",
+            "count":
+                "Job Postings"
+        }
+    )
+
+    st.plotly_chart(
+        location_chart,
+        use_container_width=True
+    )
+
+salary_histogram = px.histogram(
+    df,
+    x="salary",
+    nbins=8,
+    title="Salary distribution"
+)
+
+salary_histogram.add_vline(
+    x=salary_stats["median"],
+    line_dash="dash",
+    annotation_text="Median"
+)
+
+salary_histogram.add_vline(
+    x=salary_stats["mean"],
+    line_dash="dot",
+    annotation_text="Mean"
 )
